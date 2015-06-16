@@ -5,13 +5,55 @@
   </head>
   <body ng-controller='StoreController as store'>
     <h1>{{ "Hello, Angular!" }}</h1>
+
     <div class='product' ng-hide='product.soldOut' ng-repeat='product in store.products'>
         <h3>
             {{ product.name }}
-            <em class='pull-right'>${{ product.price }}</em>
+            <em class='pull-right'>{{ product.price | currency }}</em>
         </h3>
+
+        <!-- Image Gallery  -->
+        <div class="gallery" ng-show='product.images.length' ng-controller='GalleryController as gallery'>
+            <div class='img-wrap'>
+                    <img ng-src="{{ product.images[gallery.current] }}" />
+            </div>
+            <ul class="img-thumbnails clearfix">
+                <li class='small-image pull-left thumbnail' ng-repeat='image in product.images'>
+                    <img ng-src='{{ image }}' ng-click='gallery.setCurrent($index)'style='width:40px; height: 50px;'/>
+                </li>
+            </ul>
+        </div><!--.gallery-->
+
+        <!-- Tabs -->
+        <section class='tab' ng-controller='TabController as tab'>
+            <ul class='nav nav-pills'>
+                <li ng-class='{active:tab.isSet(1)}'>
+                    <a href ng-click='tab.setTab(1)'>Description</a>
+                </li>
+                <li ng-class='{active:tab.isSet(2)}'>
+                    <a href ng-click='tab.setTab(2)'>Specs</a>
+                </li>
+                <li ng-class='{active:tab.isSet(3)}'>
+                    <a href ng-click='tab.setTab(3)'>Reviews</a>
+                </li>
+            </ul>
+            <div ng-show='tab.isSet(1)'>
+                <h4>Description</h4>
+                <blockquote>{{ product.description }}</blockquote>
+            </div>
+            <div ng-show='tab.isSet(2)'>
+                <h4>Shine</h4>
+                <blockquote>Shine: {{ product.shine }}</blockquote>
+            </div>
+            <div ng-show='tab.isSet(3)'>
+                <h4>Reviews</h4>
+                <blockquote></blockquote>
+            </div>
+        </section>
+
         <button ng-show='product.canPurchase'>Add to Cart</button>
-    </div>
+
+    </div><!--.product-->
     <script type="text/javascript" src="angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
   </body>
