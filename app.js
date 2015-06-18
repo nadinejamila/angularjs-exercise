@@ -3,10 +3,20 @@
 
     var app = angular.module('gemStore', ['store-directives']);
 
-    //controller is attached to the app
     app.controller('StoreController', function(){
         this.products = gems;
     });
+
+    /*
+    app.controller('StoreController', ['$http', function($http){
+        var store = this;
+        store.products = [];
+        
+        $http.get('/store-products.json').success(function(data){
+            store.products = data;
+        });
+    }]);
+    */
 
     app.controller('TabController', function(){
         this.tab = 1;
